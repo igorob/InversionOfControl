@@ -11,8 +11,7 @@ var fs = require('fs'),
     var log_file = 'log.txt';
 
 // Создаем контекст-песочницу, которая станет глобальным контекстом приложения
-var context = { module: {}, console: console, setTimeout: setTimeout, setInterval: setInterval, util: util };
-context.global = context;
+var context = { module: {}, console: console, setTimeout: setTimeout, setInterval: setInterval, util: util, require: requireWrap };
 
 
 context.console.logEx = context.console.log;
@@ -24,6 +23,13 @@ context.console.log = function (s) {
 
 function createMessage(s) {
     return process.argv[1].substring(process.argv[1].lastIndexOf('\\') + 1, process.argv[1].length) + "  " + new Date().toDateString() + "  " + s;
+}
+
+
+function requireWrap(rq) {
+    var str = createMessage(rq);
+    fs.appendFile(log_file, str + '\n');
+    return require(rq);
 }
 
 for (var i = 2; i < process.argv.length; i++) {

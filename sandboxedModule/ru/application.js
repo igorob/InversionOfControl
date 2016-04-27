@@ -2,9 +2,13 @@
 // прикладного приложения, загружаемого в песочницу демонстрационным
 // кусочком фреймворка. Читайте README.md в нем задания.
 
-// Вывод из глобального контекста модуля
-console.log('From application global context');
 
+
+// Вывод из глобального контекста модуля
+
+
+console.log('From application global context');
+var fs = require('fs');
 
  console.log("is string 'string'? " + util.isString('string'));
  console.log("is null 'string'? " + util.isNull('string'));
