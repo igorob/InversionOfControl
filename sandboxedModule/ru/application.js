@@ -18,7 +18,10 @@ var fs = require('fs');
  setInterval(function () { console.log("Hello from setInterval"); }, 1000);
 
 
-
+console.log('Global context:')
+for (key in global) {
+    console.log(typeof global[key] + "   " + key);
+}
 
 
 
