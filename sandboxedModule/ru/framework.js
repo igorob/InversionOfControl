@@ -1,4 +1,4 @@
-// Файл, демонстрирующий то, как фреймворк создает среду (песочницу) для
+﻿// Файл, демонстрирующий то, как фреймворк создает среду (песочницу) для
 // исполнения приложения, загружает приложение, передает ему песочницу в
 // качестве глобального контекста и получает ссылу на экспортируемый
 // приложением интерфейс. Читайте README.md в нем задания.
@@ -8,7 +8,7 @@ var fs = require('fs'),
     vm = require('vm');
 
 // Создаем контекст-песочницу, которая станет глобальным контекстом приложения
-var context = { module: {}, console: console };
+var context = { module: {}, console: console, setTimeout: setTimeout, setInterval: setInterval };
 context.global = context;
 var sandbox = vm.createContext(context);
 
