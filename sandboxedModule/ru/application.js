@@ -5,9 +5,14 @@
 // Вывод из глобального контекста модуля
 console.log('From application global context');
 
+
+ console.log("is string 'string'? " + util.isString('string'));
+ console.log("is null 'string'? " + util.isNull('string'));
+
  setTimeout(function () { console.log("Hello from setTimeout"); }, 1000);
   
  setInterval(function () { console.log("Hello from setInterval"); }, 1000);
+
 
 
 
