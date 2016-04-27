@@ -19,7 +19,18 @@ console.log('From application global context');
 
 
 
-module.exports = function() {
-  // Вывод из контекста экспортируемой функции
-  console.log('From application exported function');
+module.exports = { };
+
+module.exports.hello = function () { 
+};
+
+module.exports.doSomething = function () {
+    console.log('Do something');
+};
+
+module.exports.variableName = { prop1: 12, prop2: 'str'};
+
+module.exports.sum = function (a, b) {
+    var sum = a + b;
+    console.log(a + '+' + b + '=' + sum);
 };

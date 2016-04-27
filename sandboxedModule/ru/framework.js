@@ -5,22 +5,40 @@
 
 // Фреймворк может явно зависеть от библиотек через dependency lookup
 var fs = require('fs'),
-    vm = require('vm');
+    vm = require('vm'),
     util = require('util');
 
 // Создаем контекст-песочницу, которая станет глобальным контекстом приложения
-var context = { module: {}, console: console, setTimeout: setTimeout, setInterval: setInterval, util: util};
-var sandbox = vm.createContext(context);
+var context = { module: {}, console: console, setTimeout: setTimeout, setInterval: setInterval, util: util };
+context.global = context;
 
-// Читаем исходный код приложения из файла
-var fileName = './application.js';
-fs.readFile(fileName, function(err, src) {
-  // Тут нужно обработать ошибки
-  
-  // Запускаем код приложения в песочнице
-  var script = vm.createScript(src, fileName);
-  script.runInNewContext(sandbox);
-  
-  // Забираем ссылку из sandbox.module.exports, можем ее исполнить,
-  // сохранить в кеш, вывести на экран исходный код приложения и т.д.
-});
+context.console.logEx = context.console.log;
+context.console.log = function (s) { console.logEx(process.argv[1].substring(process.argv[1].lastIndexOf('\\') + 1, process.argv[1].length) + "  " + new Date().toDateString() + "  " + s); };
+
+for (var i = 2; i < process.argv.length; i++) {
+
+    var sandbox = vm.createContext(context);
+
+    // Читаем исходный код приложения из файла
+    var fileName = './' + process.argv[i];
+    fs.readFile(fileName, function (err, src) {
+        // Тут нужно обработать ошибки
+        if (err) {
+            console.log("File not found");
+        } else {
+            // Запускаем код приложения в песочнице
+            var script = vm.createScript(src, fileName);
+            script.runInNewContext(sandbox);
+
+            var s = sandbox.module.exports;
+            s.doSomething();
+
+            console.log(s.variableName.prop1);
+            s.sum(2, 3);
+            var str = s.sum.toString();
+            console.log('function parameters: ' + str.substring(str.indexOf('(') + 1, str.indexOf(')')));
+            // Забираем ссылку из sandbox.module.exports, можем ее исполнить,
+            // сохранить в кеш, вывести на экран исходный код приложения и т.д.
+        }
+    });
+}
