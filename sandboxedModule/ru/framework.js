@@ -6,12 +6,12 @@
 // Фреймворк может явно зависеть от библиотек через dependency lookup
 var fs = require('fs'),
     vm = require('vm'),
-    util = require('util');
+    qwwewrw = require('util');
 
     var log_file = 'log.txt';
 
 // Создаем контекст-песочницу, которая станет глобальным контекстом приложения
-var context = { module: {}, console: console, setTimeout: setTimeout, setInterval: setInterval, util: util, require: requireWrap };
+var context = { module: {}, console: console, setTimeout: setTimeout, setInterval: setInterval, util: qwwewrw, require: requireWrap };
 context.global = context;
 
 context.console.logEx = context.console.log;
@@ -50,12 +50,8 @@ for (var i = 2; i < process.argv.length; i++) {
             var s = sandbox.module.exports;
             s.doSomething();
 
-            var s1 = s.variableName.prop1;
-             var s2 = s.variableName.prop2;
-             console.log(typeof s1 + "  " + s1);
-             console.log(typeof s2 + "  " + s2);
-              s.sum(2, 3);
-            
+            console.log(s.variableName.prop1);
+            s.sum(2, 3);
             var str = s.sum.toString();
             console.log('function parameters: ' + str.substring(str.indexOf('(') + 1, str.indexOf(')')));
             // Забираем ссылку из sandbox.module.exports, можем ее исполнить,
